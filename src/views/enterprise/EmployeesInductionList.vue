@@ -29,7 +29,7 @@
       </a-form>
     </div>
     <!-- 查询区域-END -->
-    
+
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
@@ -62,16 +62,17 @@
         :pagination="ipagination"
         :loading="loading"
         :rowSelection="{fixed:true,selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-        
+
         @change="handleTableChange">
 
-        <template slot="htmlSlot" slot-scope="text">
-          <div v-html="text"></div>
+        <!--图片显示-->
+        <template slot="avatarslot" slot-scope="text, record, index">
+          <div class="anty-img-wrap">
+            <a-avatar shape="square" :src="getAvatarView(record.employeesHeadportrait)" icon="user"/>
+          </div>
         </template>
-        <template slot="imgSlot" slot-scope="text">
-          <span v-if="!text" style="font-size: 12px;font-style: italic;">无此图片</span>
-          <img v-else :src="getImgView(text)" height="25px" alt="图片不存在" style="max-width:80px;font-size: 12px;font-style: italic;"/>
-        </template>
+
+
         <template slot="fileSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无此文件</span>
           <a-button
@@ -115,6 +116,11 @@
   import JDictSelectTag from '@/components/dict/JDictSelectTag.vue'
   import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
 
+  //增加图片显示接口
+  import {putAction,getFileAccessHttpUrl} from '@/api/manage';
+
+
+
   export default {
     name: "EmployeesInductionList",
     mixins:[JeecgListMixin],
@@ -128,7 +134,7 @@
         // 表头
         columns: [
           {
-            title: '#',
+            title: '序号',
             dataIndex: '',
             key:'rowIndex',
             width:60,
@@ -177,7 +183,7 @@
             title:'头像',
             align:"center",
             dataIndex: 'employeesHeadportrait',
-            scopedSlots: {customRender: 'imgSlot'}
+            scopedSlots: {customRender: 'avatarslot'}
           },
           {
             title:'简历',
@@ -198,6 +204,7 @@
           }
         ],
         url: {
+          imgerver: window._CONFIG['staticDomainURL'],
           list: "/enterprise/employeesInduction/list",
           delete: "/enterprise/employeesInduction/delete",
           deleteBatch: "/enterprise/employeesInduction/deleteBatch",
@@ -213,6 +220,11 @@
       }
     },
     methods: {
+      //获取图片方法
+      getAvatarView: function (employeesHeadportrait) {
+        return getFileAccessHttpUrl(employeesHeadportrait,this.url.imgerver,"http")
+      },
+
       initDictConfig(){
       }
     }
