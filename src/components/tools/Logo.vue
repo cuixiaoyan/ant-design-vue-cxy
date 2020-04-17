@@ -21,7 +21,7 @@
     props: {
       title: {
         type: String,
-        default: '快速开发',
+        default: 'xxx项目',
         required: false
       },
       showTitle: {
