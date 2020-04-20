@@ -66,12 +66,20 @@
           </a-col>
         </a-row>
 
+<!--        <a-row class="form-row" :gutter="16">-->
+<!--          <a-form-item label="简介" :labelCol="labelCol" :wrapperCol="wrapperCol">-->
+<!--            <a-textarea v-decorator="['employeesIntroductiontothe', validatorRules.employeesIntroductiontothe]" rows="2"-->
+<!--                        placeholder="请输入简介"/>-->
+<!--          </a-form-item>-->
+<!--        </a-row>-->
+
+        <!-- JEditor -->
         <a-row class="form-row" :gutter="16">
-          <a-form-item label="简介" :labelCol="labelCol" :wrapperCol="wrapperCol">
-            <a-textarea v-decorator="['employeesIntroductiontothe', validatorRules.employeesIntroductiontothe]" rows="2"
-                        placeholder="请输入简介"/>
-          </a-form-item>
+            <a-form-item label="简介" :labelCol="labelCol" :wrapperCol="wrapperCol" >
+              <j-editor  v-decorator="[ 'employeesIntroductiontothe', {} ]" triggerChange/>
+            </a-form-item>
         </a-row>
+
 
       </a-form>
     </a-spin>
@@ -89,6 +97,8 @@
   import JDictSelectTag from '@/components/dict/JDictSelectTag'
   //增加图片上传包
   import JImageUpload from '../../../components/jeecg/JImageUpload'
+  //富文本编辑器
+  import JEditor from '@/components/jeecg/JEditor'
 
   export default {
     name: 'EmployeesInductionModal',
@@ -97,6 +107,7 @@
       JUpload,
       JSelectDepart,
       JDictSelectTag,
+      JEditor,
 
       JImageUpload
     },
