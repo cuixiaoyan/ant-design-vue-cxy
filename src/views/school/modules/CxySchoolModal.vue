@@ -36,13 +36,18 @@
 
 
 
+<!--        <a-form-item label="联系人" :labelCol="labelCol" :wrapperCol="wrapperCol" hasFeedback>-->
+<!--          <j-search-select-tag-->
+<!--            placeholder="请做出你的选择"-->
+<!--            v-decorator="[ 'contacts', validatorRules.contacts]"-->
+<!--            dict="sys_user,realname,id"-->
+<!--            :async="true">-->
+<!--          </j-search-select-tag>-->
+<!--        </a-form-item>-->
+
+        <!--  用户选择控件 -->
         <a-form-item label="联系人" :labelCol="labelCol" :wrapperCol="wrapperCol" hasFeedback>
-          <j-search-select-tag
-            placeholder="请做出你的选择"
-            v-decorator="[ 'contacts', validatorRules.contacts]"
-            dict="sys_user,realname,id"
-            :async="true">
-          </j-search-select-tag>
+              <j-select-multi-user v-decorator="[ 'contacts', validatorRules.contacts]"  ></j-select-multi-user>
         </a-form-item>
 
 <!--        <a-form-item label="联系人" :labelCol="labelCol" :wrapperCol="wrapperCol" hasFeedback>-->
@@ -120,6 +125,9 @@
 
   import JSelectUserByDep from '@/components/jeecgbiz/JSelectUserByDep'
 
+  //用户选择
+  import JSelectMultiUser from '@/components/jeecgbiz/JSelectMultiUser'
+
   import moment from 'moment'
   import Vue from 'vue'
   import { ACCESS_TOKEN } from "@/store/mutation-types"
@@ -134,6 +142,7 @@
       JSearchSelectTag,
       JEllipsis,
       JSelectUserByDep,
+      JSelectMultiUser,
     },
     data () {
       return {

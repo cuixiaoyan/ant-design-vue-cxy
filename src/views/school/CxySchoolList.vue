@@ -64,6 +64,13 @@
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
 
+        <!-- 字符串超长截取省略号显示-->
+        <span slot="address" slot-scope="text">
+          <j-ellipsis :value="text" :length="25" />
+        </span>
+
+
+
         <template slot="imgSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无此图片</span>
           <img v-else :src="getImgView(text)" height="25px" alt="图片不存在" style="max-width:80px;font-size: 12px;font-style: italic;"/>
@@ -108,11 +115,15 @@
 
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import CxySchoolModal from './modules/CxySchoolModal'
+  //过长省略
+  import JEllipsis from "@/components/jeecg/JEllipsis";
+
   export default {
     name: "CxySchoolList",
     mixins:[JeecgListMixin],
     components: {
-      CxySchoolModal
+      CxySchoolModal,
+      JEllipsis,
     },
     data () {
       return {
@@ -162,12 +173,13 @@
           {
             title:'联系人',
             align:"center",
-            dataIndex: 'contacts_dictText'
+            dataIndex: 'contacts'
           },
           {
             title:'地址',
             align:"center",
-            dataIndex: 'address'
+            dataIndex: 'address',
+            scopedSlots: {customRender: 'address'},
           },
           // {
           //   title:'邮政编码',
