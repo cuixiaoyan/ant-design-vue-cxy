@@ -63,18 +63,21 @@
         :loading="loading"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
+        <!--增加表头图标-->
+        <span slot="nameTitle"><a-icon type="smile-o" /> 学校名称</span>
 
         <!-- 字符串超长截取省略号显示-->
         <span slot="address" slot-scope="text">
           <j-ellipsis :value="text" :length="25" />
         </span>
 
-
-
-        <template slot="imgSlot" slot-scope="text">
-          <span v-if="!text" style="font-size: 12px;font-style: italic;">无此图片</span>
-          <img v-else :src="getImgView(text)" height="25px" alt="图片不存在" style="max-width:80px;font-size: 12px;font-style: italic;"/>
+        <!--图片显示-->
+        <template slot="avatarslot" slot-scope="text, record, index">
+          <div class="anty-img-wrap">
+            <a-avatar shape="square" :src="getAvatarView(record.pic)" icon="user"/>
+          </div>
         </template>
+
         <template slot="fileSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无此文件</span>
           <a-button
@@ -117,6 +120,8 @@
   import CxySchoolModal from './modules/CxySchoolModal'
   //过长省略
   import JEllipsis from "@/components/jeecg/JEllipsis";
+  //增加图片显示接口
+  import { putAction, getFileAccessHttpUrl } from '@/api/manage'
 
   export default {
     name: "CxySchoolList",
@@ -141,9 +146,12 @@
             }
           },
           {
-            title:'学校名称',
+            //title:'学校名称',
             align:"center",
-            dataIndex: 'name'
+            dataIndex: 'name',
+            //增加表头图标
+            slots: { title: 'nameTitle' },
+            scopedSlots: {customRender: 'name'},
           },
           // {
           //   title:'最低年级',
@@ -190,7 +198,7 @@
             title:'图片',
             align:"center",
             dataIndex: 'pic',
-            scopedSlots: {customRender: 'imgSlot'}
+            scopedSlots: { customRender: 'avatarslot' }
           },
           // {
           //   title:'简介',
@@ -246,6 +254,11 @@
       }
     },
     methods: {
+      //获取图片方法
+      getAvatarView: function(pic) {
+        return getFileAccessHttpUrl(pic, this.url.imgerver, 'http')
+      },
+
       initDictConfig(){
       }
 

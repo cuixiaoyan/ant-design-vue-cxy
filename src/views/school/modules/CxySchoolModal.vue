@@ -65,9 +65,10 @@
           <a-input v-decorator="[ 'postCode', validatorRules.postCode]" placeholder="请输入邮政编码"></a-input>
         </a-form-item>
 
-        <a-form-item label="图片" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <j-upload v-decorator="['pic']" :trigger-change="true"></j-upload>
-        </a-form-item>
+
+          <a-form-item label="图片" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <j-image-upload class="avatar-uploader" text="上传" v-model="fileList"></j-image-upload>
+          </a-form-item>
 
 
         <a-form-item label="简介" :labelCol="labelCol" :wrapperCol="wrapperCol">
@@ -124,6 +125,8 @@
   import JEllipsis from '@/components/jeecg/JEllipsis'
 
   import JSelectUserByDep from '@/components/jeecgbiz/JSelectUserByDep'
+  //增加图片上传包
+  import JImageUpload from '../../../components/jeecg/JImageUpload'
 
   //用户选择
   import JSelectMultiUser from '@/components/jeecgbiz/JSelectMultiUser'
@@ -143,6 +146,7 @@
       JEllipsis,
       JSelectUserByDep,
       JSelectMultiUser,
+      JImageUpload
     },
     data () {
       return {
@@ -188,9 +192,15 @@
         status:{},
         },
         url: {
+          //图片地址
+          fileUpload: window._CONFIG['domianURL'] + '/sys/common/upload',
+          imgerver: window._CONFIG['staticDomainURL'],
           add: "/school/cxySchool/add",
           edit: "/school/cxySchool/edit",
-        }
+        },
+        //存放图片变量
+        picUrl: '',
+        fileList: []
 
       }
     },
@@ -204,6 +214,11 @@
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.visible = true;
+        //图片变量赋值
+        setTimeout(() => {
+          this.fileList = record.pic
+        }, 5)
+
         this.$nextTick(() => {
           this.form.setFieldsValue(pick(this.model,'name','startGrade','endGrade','regionId','website','phone','contacts','address','postCode','pic','introduce','remarks','bucket','schoolType','schoolSign','status'))
         })
@@ -228,6 +243,8 @@
                method = 'put';
             }
             let formData = Object.assign(this.model, values);
+            //验证赋值
+            formData.pic = that.fileList
             console.log("表单提交数据",formData)
             httpAction(httpurl,formData,method).then((res)=>{
               if(res.success){
@@ -300,6 +317,41 @@
           }
         });
         // }
+      },
+
+      //图片回显
+      normFile(e) {
+        console.log('Upload event:', e)
+        if (Array.isArray(e)) {
+          return e
+        }
+        return e && e.fileList
+      },
+      beforeUpload: function(file) {
+        var fileType = file.type
+        if (fileType.indexOf('image') < 0) {
+          this.$message.warning('请上传图片')
+          return false
+        }
+        //TODO 验证文件大小
+      },
+      handleChange(info) {
+        this.picUrl = ''
+        if (info.file.status === 'uploading') {
+          this.uploadLoading = true
+          return
+        }
+        if (info.file.status === 'done') {
+          var response = info.file.response
+          this.uploadLoading = false
+          console.log(response)
+          if (response.success) {
+            this.model.avatar = response.message
+            this.picUrl = 'Has no pic url yet'
+          } else {
+            this.$message.warning(response.message)
+          }
+        }
       }
 
 
