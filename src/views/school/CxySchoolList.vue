@@ -78,6 +78,19 @@
           </div>
         </template>
 
+<!--        <template slot="requestMethod" slot-scope="text">-->
+<!--          <a-tag v-if="text === '0'" color="#87d068">{{ text }}</a-tag>-->
+<!--          <a-tag v-else-if="text === '1'" color="#2db7f5">{{ text }}</a-tag>-->
+<!--        </template>-->
+
+        <!--字典变色-->
+        <template slot="schoolType" slot-scope="text">
+          <a-tag v-if="text === '全日制'" color="pink">{{ text }} </a-tag>
+          <a-tag v-else-if="text === '教育机构'" color="green">{{ text }} </a-tag>
+          <span v-else>{{ text }}</span>
+        </template>
+
+
         <template slot="fileSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无此文件</span>
           <a-button
@@ -218,7 +231,8 @@
           {
             title:'类别',
             align:"center",
-            dataIndex: 'schoolType_dictText'
+            dataIndex: 'schoolType_dictText',
+            scopedSlots: { customRender: 'schoolType' },
           },
           // {
           //   title:'唯一标示',
