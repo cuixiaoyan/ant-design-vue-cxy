@@ -17,13 +17,13 @@
               <a-input v-decorator="[ 'zhurenmingzi', validatorRules.zhurenmingzi]" placeholder="请输入主人名字"></a-input>
             </a-form-item>
           </a-col>
-        
+
           <a-col :span="12">
             <a-form-item label="年龄" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input-number v-decorator="[ 'age', validatorRules.age]" placeholder="请输入年龄" style="width: 100%"/>
             </a-form-item>
           </a-col>
-        
+
           <a-col :span="12">
             <a-form-item label="性别" :labelCol="labelCol" :wrapperCol="wrapperCol" hasFeedback>
               <j-dict-select-tag  placeholder="请选择性别" dictCode="sex" :triggerChange="true"  v-decorator="[ 'sex', validatorRules.sex]"/>
@@ -32,26 +32,26 @@
 
 
 
-        
+
           <a-col :span="12">
             <a-form-item label="电话" :labelCol="labelCol" :wrapperCol="wrapperCol" hasFeedback>
               <a-input v-decorator="[ 'iphone', validatorRules.iphone]" placeholder="请输入电话"></a-input>
             </a-form-item>
           </a-col>
-        
+
           <a-col :span="12">
             <a-form-item label="等级" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <j-dict-select-tag  placeholder="请选择等级" dictCode="member" :triggerChange="true"  v-decorator="[ 'huiyuan', validatorRules.huiyuan]"/>
             </a-form-item>
 
           </a-col>
-        
+
           <a-col :span="12">
             <a-form-item label="种类" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-multi-select-tag type="list_multi" v-decorator="['weiyangzhonglei']" :trigger-change="true" dictCode="zhonglei" placeholder="请选择种类"/>
+              <j-multi-select-tag type="list_multi" v-decorator="['weiyangzhonglei']" :trigger-change="true" dictCode="petType" placeholder="请选择种类"/>
             </a-form-item>
           </a-col>
-        
+
         </a-row>
       </a-form>
 
@@ -68,7 +68,7 @@
             :rowSelection="true"
             :actionButton="true"/>
         </a-tab-pane>
-        
+
         <a-tab-pane tab="宠物猫" :key="refKeys[1]" :forceRender="true">
           <j-editable-table
             :ref="refKeys[1]"
@@ -80,7 +80,7 @@
             :rowSelection="true"
             :actionButton="true"/>
         </a-tab-pane>
-        
+
       </a-tabs>
 
     </a-spin>
@@ -313,8 +313,8 @@
         }
       },
 
-      
-      
+
+
     }
   }
 </script>

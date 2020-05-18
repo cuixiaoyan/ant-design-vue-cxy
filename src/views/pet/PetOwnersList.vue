@@ -29,7 +29,7 @@
       </a-form>
     </div>
     <!-- 查询区域-END -->
-    
+
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
@@ -63,7 +63,17 @@
         :loading="loading"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
-        
+
+        <!--等级变色-->
+        <template slot="member" slot-scope="text">
+          <a-tag v-if="text === '普通用户'" color="pink">{{ text }} </a-tag>
+          <a-tag v-else-if="text === 'vip'" color="green">{{ text }} </a-tag>
+          <a-tag v-else-if="text === 'svip'" color="orange">{{ text }} </a-tag>
+<!--          <a-tag v-else-if="text === 'vip'" color="red">{{ text }} </a-tag>-->
+          <span v-else>{{ text }}</span>
+        </template>
+
+
         <template slot="imgSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无此图片</span>
           <img v-else :src="getImgView(text)" height="25px" alt="图片不存在" style="max-width:80px;font-size: 12px;font-style: italic;"/>
@@ -154,19 +164,20 @@
           {
             title:'等级',
             align:"center",
-            dataIndex: 'huiyuan_dictText'
+            dataIndex: 'huiyuan_dictText',
+            scopedSlots: { customRender: 'member' },
           },
           {
             title:'种类',
             align:"center",
-            dataIndex: 'weiyangzhonglei',
-            customRender:(text)=>{
-              if(!text){
-                return ''
-              }else{
-                return filterMultiDictText(this.dictOptions['weiyangzhonglei'], text+"")
-              }
-            }
+            dataIndex: 'weiyangzhonglei_dictText',
+            // customRender:(text)=>{
+            //   if(!text){
+            //     return ''
+            //   }else{
+            //     return filterMultiDictText(this.dictOptions['weiyangzhonglei'], text+"")
+            //   }
+            // }
           },
           {
             title: '操作',
@@ -183,8 +194,8 @@
           importExcelUrl: "pet/petOwners/importExcel",
         },
         dictOptions:{
-         weiyangzhonglei:[],
-        } 
+         // weiyangzhonglei:[],
+        }
       }
     },
     computed: {
@@ -194,13 +205,14 @@
     },
     methods: {
       initDictConfig(){
-        initDictOptions('zhonglei').then((res) => {
-          if (res.success) {
-            this.$set(this.dictOptions, 'weiyangzhonglei', res.result)
-          }
-        })
+        // initDictOptions('zhonglei').then((res) => {
+        //   if (res.success) {
+        //     this.$set(this.dictOptions, 'weiyangzhonglei', res.result)
+        //   }
+        // })
+
       }
-       
+
     }
   }
 </script>

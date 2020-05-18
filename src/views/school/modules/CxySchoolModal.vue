@@ -46,7 +46,7 @@
 <!--        </a-form-item>-->
 
         <!--  用户选择控件 -->
-        <a-form-item label="联系人" :labelCol="labelCol" :wrapperCol="wrapperCol" hasFeedback>
+        <a-form-item label="联系人" :labelCol="labelCol" :wrapperCol="wrapperCol" >
               <j-select-multi-user v-decorator="[ 'contacts', validatorRules.contacts]"  ></j-select-multi-user>
         </a-form-item>
 
@@ -178,9 +178,11 @@
         regionId:{},
         website:{},
         phone:{rules: [{ required: true, message: '请输入手机号!'},{validator: this.validatePhone}]},
-        contacts:{rules: [
+        contacts:{
+          rules: [
             { required: true, message: '请输入联系人名称!'},
-          ]},
+          ]
+        },
         address:{},
         postCode:{},
         pic:{},

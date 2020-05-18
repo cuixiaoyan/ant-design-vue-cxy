@@ -73,7 +73,7 @@
 
         <!--图片显示-->
         <template slot="avatarslot" slot-scope="text, record, index">
-          <div class="anty-img-wrap">
+          <div class="anty-img-wrap">联系人
             <a-avatar shape="square" :src="getAvatarView(record.pic)" icon="user"/>
           </div>
         </template>
